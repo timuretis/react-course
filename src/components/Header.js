@@ -1,9 +1,9 @@
 import React from 'react';
-import Counter from './Counter';
+import User from './User';
 
 const Header = () => (
   <header>
-    <h1>Recipes Book (<Counter favorite={ true } />)</h1>
+    <h1>Recipes Book (<User />)</h1>
   </header>
 );
 

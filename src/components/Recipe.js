@@ -10,7 +10,6 @@ const Recipe = ({ recipe, toggleFavorite }) => (
   </li>
 );
 
-
 Recipe.propTypes = {
   recipe: React.PropTypes.object.isRequired,
   toggleFavorite: React.PropTypes.func.isRequired

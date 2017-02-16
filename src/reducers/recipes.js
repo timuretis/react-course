@@ -1,4 +1,4 @@
-import { ADD_RECIPE, TOGGLE_FAVORITE } from '../consts/action-types';
+import { ADD_RECIPE, TOGGLE_FAVORITE, SET_RECIPES } from '../consts/action-types';
 import { getID } from '../lib/ids';
 
 const initialState = [
@@ -7,18 +7,6 @@ const initialState = [
     title: 'Waffles',
     description: 'Nice',
     favorite: false
-  },
-  {
-    id: getID(),
-    title: 'Omelette',
-    description: 'Good',
-    favorite: true
-  },
-  {
-    id: getID(),
-    title: 'Dog Food',
-    description: 'Amazing',
-    favorite: true
   }
 ];
 
@@ -42,6 +30,9 @@ const reducer = (recipes = initialState, action) => {
           favorite: !recipe.favorite
         })
       );
+
+    case SET_RECIPES:
+      return action.payload;
 
     default:
       return recipes;

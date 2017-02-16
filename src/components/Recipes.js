@@ -20,13 +20,13 @@ Recipes.propTypes = {
   toggleFavorite: React.PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-  return {
-    recipes: state.recipes
-  }
-};
+const mapStateToProps = (state) => ({
+  recipes: state.recipes
+});
 
-const ConnectedRecipes = connect(
-  mapStateToProps, { toggleFavorite })(Recipes);
+export default connect( mapStateToProps, { toggleFavorite })(Recipes);
 
-export default ConnectedRecipes;
+
+
+
+

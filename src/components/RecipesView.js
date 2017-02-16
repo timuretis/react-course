@@ -1,18 +1,41 @@
 import React from 'react';
 import Recipes from './Recipes';
+import { connect } from 'react-redux';
+import { fetchRecipes } from '../actions/recipes';
 
-const RecipesView = ({ children }) => (
-  <div className="main">
+class RecipesView extends React.Component {
+  componentDidMount() {
+    this.props.fetchRecipes();
+  }
 
-    <div className="pane">
-      <Recipes />
-    </div>
+  render() {
+    return (
+      <div className="main">
 
-    <div className="pane">
-      { children }
-    </div>
+        <div className="pane">
+          <Recipes />
+        </div>
 
-  </div>
-);
+        <div className="pane">
+          { this.props.children }
+        </div>
 
-export default RecipesView;
+      </div>
+    );
+  }
+}
+
+RecipesView.propTypes = {
+  fetchRecipes: React.PropTypes.func.isRequired
+};
+
+export default connect(null, { fetchRecipes })(RecipesView);
+
+
+
+
+
+
+
+
+

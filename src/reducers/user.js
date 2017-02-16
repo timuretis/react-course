@@ -1,7 +1,7 @@
 import { SET_NAME } from '../consts/action-types';
 
 const initialState = {
-  name: undefined
+  name: 'Unknown'
 };
 
 const reducer = (user = initialState, action) => {

@@ -11,3 +11,15 @@ export const toggleFavorite = (id) => ({
   type: actions.TOGGLE_FAVORITE,
   id
 });
+
+export const fetchRecipes = () => ({
+  type: actions.FETCH_RECIPES
+});
+
+
+
+
+
+
+
+
