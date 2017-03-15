@@ -1,15 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-
-const Header = ({ title }) => (
-  <h1>{ title }</h1>
-);
-
-const Recipe = ({ title }) => (
-  <li onClick={ ()=> console.log('YEy') }>{ title }</li>
-);
+import Header from './components/Header';
+import Recipe from './components/Recipe';
 
 const Recipes = ({ recipes }) => (
   <ul>
@@ -21,6 +15,25 @@ const Recipes = ({ recipes }) => (
   </ul>
 );
 
+class AddRecipe extends Component {
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    this.props.cb(this.titleElem.value);
+
+    this.titleElem.value = '';
+  };
+
+  render() {
+    return (
+      <form onSubmit={ this.handleSubmit }>
+        <input ref={ (elem) => this.titleElem = elem } type="text"/>
+        <button>Add</button>
+      </form>
+    );
+  }
+}
+
 class App extends React.Component {
   constructor() {
     super();
@@ -30,14 +43,10 @@ class App extends React.Component {
     };
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-
+  addRecipe = (title) => {
     this.setState({
-      recipes: this.state.recipes.concat(this.titleElem.value)
+      recipes: this.state.recipes.concat(title)
     });
-
-    this.titleElem.value = '';
   };
 
   render() {
@@ -46,12 +55,7 @@ class App extends React.Component {
         <div>
           <Header title="Recipes:" />
           <Recipes recipes={ this.state.recipes } />
-
-          <form onSubmit={ this.handleSubmit }>
-            <input ref={ (elem) => this.titleElem = elem } type="text"/>
-            <button>Add</button>
-          </form>
-
+          <AddRecipe cb={ this.addRecipe }  />
         </div>
       </div>
     )
