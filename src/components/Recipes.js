@@ -18,8 +18,15 @@ Recipes.propTypes = {
 // ---- NEW CODE -----
 
 const mapStateToProps = (state) => ({
-  recipes: state.recipes,
-  toggleFavorite: () => console.log('Hello toggle')
+  recipes: state.recipes
 });
 
-export default connect(mapStateToProps)(Recipes);
+const mapDispatchToProps = (dispatch) => ({
+  toggleFavorite: (id) => dispatch({ type: 'TOGGLE', id })
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Recipes);
+
+
+
+

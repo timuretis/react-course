@@ -1,10 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
+import Total from './Total';
 
 const Recipe = ({ recipe, toggleFavorite }) => (
   <li className={ classNames('recipe', { 'favorite': recipe.favorite }) }
       onClick={ () => toggleFavorite(recipe.id) } >
-    { recipe.title }
+    { recipe.title } <Total />
   </li>
 );
 
