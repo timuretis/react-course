@@ -1,47 +1,29 @@
 import { ADD_RECIPE, TOGGLE_FAVORITE } from '../consts/action-types';
 import { getID } from '../lib/ids';
 
-const initialState = [
-  {
-    id: getID(),
-    title: 'Waffles',
-    description: 'Nice',
-    favorite: false
-  },
-  {
-    id: getID(),
-    title: 'Omelette',
-    description: 'Good',
-    favorite: true
-  },
-  {
-    id: getID(),
-    title: 'Dog Food',
-    description: 'Amazing',
-    favorite: true
-  }
-];
+const initialState = [];
 
 const reducer = (recipes = initialState, action) => {
   switch (action.type) {
     case ADD_RECIPE:
-      const newRecipe = {
+      const newRecipe = Object.assign({}, action.payload, {
         id: getID(),
-        title: action.title,
         favorite: false,
-        description: action.description
-      };
+      });
 
       return recipes.concat(newRecipe);
 
     case TOGGLE_FAVORITE:
       return recipes.map(recipe =>
-        recipe.id !== action.id
+        recipe.id !== action.payload
           ? recipe
           : Object.assign({}, recipe, {
           favorite: !recipe.favorite
         })
       );
+
+    case 'SET_RECIPES':
+      return action.payload;
 
     default:
       return recipes;
