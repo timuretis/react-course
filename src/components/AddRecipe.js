@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addRecipe } from '../actions/recipes';
+import { browserHistory } from 'react-router';
 
 class AddRecipe extends React.Component {
   onSubmit(e) {
@@ -9,6 +10,8 @@ class AddRecipe extends React.Component {
     this.props.addRecipe(this.title.value);
 
     this.title.value = '';
+
+    browserHistory.push('/');
   }
 
   render() {
