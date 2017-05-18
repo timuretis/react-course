@@ -1,8 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Header from 'components/Header';
 
-class Recipes extends React.Component {
+class AddRecipe extends React.Component {
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    this.props.addRecipe(this.titleElem.value);
+
+    this.titleElem.value = '';
+  };
+
+  render() {
+    return (
+      <form onSubmit={ this.handleSubmit }>
+        <input ref={ elem => this.titleElem = elem } type="text"/>
+        <button>add</button>
+      </form>
+    );
+  }
+}
+
+const Recipes = ({ recipes }) => (
+  <ul>
+    { recipes.map(str => <li key={ str }>{ str } </li>) }
+  </ul>
+);
+
+
+
+class App extends React.Component {
   constructor() {
     super();
 
@@ -11,43 +39,24 @@ class Recipes extends React.Component {
     };
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-
+  addRecipe = (title) => {
     this.setState({
-      recipes: this.state.recipes.concat(this.titleElem.value)
+      recipes: this.state.recipes.concat(title)
     });
-
-    this.titleElem.value = '';
   };
 
   render() {
     return (
       <div>
-        <ul>
-          { this.state.recipes.map(str => <li key={ str }>{ str } </li>) }
-        </ul>
+        <Header msg="Hello everyone"/>
 
-        <form onSubmit={ this.handleSubmit }>
-          <input ref={ elem => this.titleElem = elem } type="text"/>
-          <button>add</button>
-        </form>
+        <Recipes recipes={ this.state.recipes } />
+
+        <AddRecipe addRecipe={ this.addRecipe }/>
       </div>
     );
   }
 }
-
-const Header = ({ msg }) => (
-  <h1>{ msg }</h1>
-);
-
-const App = () => (
-  <div>
-    <Header msg="hi" color="blue"/>
-    <h2>Ezugi</h2>
-    <Recipes />
-  </div>
-);
 
 ReactDOM.render(
   <App />,
