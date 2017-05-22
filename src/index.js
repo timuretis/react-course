@@ -1,73 +1,50 @@
 import React from 'react';
 import { render } from 'react-dom';
 import './index.css';
-import { getID } from './lib/ids';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import * as actions from './consts/action-types';
 import RecipesView from './components/RecipesView';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import store from 'store';
+import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router';
 
+window.browserHistory = browserHistory;
 
-const reducer = (state, action) => {
-  console.log("Got Action " + action.type, action);
-
-  switch (action.type) {
-    case actions.ADD_RECIPE:
-      const newRecipe = {
-        id: getID(),
-        title: action.title,
-        favorite: false
-      };
-
-      const newRecipes = state.recipes.concat(newRecipe);
-
-      return Object.assign({}, state, {
-        recipes: newRecipes
-      });
-
-    case actions.TOGGLE_FAVORITE:
-      const updateRecipes = state.recipes.map(recipe =>
-        recipe.id !== action.id
-          ? recipe
-          : Object.assign({}, recipe, {
-            favorite: !recipe.favorite
-          })
-      );
-
-      return Object.assign({}, state, {
-        recipes: updateRecipes
-      });
-
-    default:
-      return state;
-  }
-};
-
-const initialState = {
-  recipes: [
-    { id: getID(), title: 'Waffles', favorite: false },
-    { id: getID(), title: 'Omelette', favorite: true },
-    { id: getID(), title: 'Dog Food', favorite: true }
-  ]
-};
-
-const store = createStore(reducer, initialState);
-
-window.store = store;
-
-const App = () => (
+const App = (props) => (
   <div>
     <Header />
-    <RecipesView />
+    { props.children }
     <Footer />
+  </div>
+);
+
+const About = (props) => (
+  <h2>About this app</h2>
+);
+
+const StaticPages = (props) => (
+  <h2>Static page: { props.params.name } </h2>
+);
+
+const NotFound = () => (
+  <div>
+    <h1>Are you lost?</h1>
+    <Link to="/">Home</Link>
   </div>
 );
 
 render(
   <Provider store={ store }>
-    <App />
+    <Router history={ browserHistory }>
+
+      <Route path="/" component={ App }>
+        <IndexRoute component={ RecipesView }/>
+        <Route path="about" component={ About }/>
+        <Route path="static/:name" component={ StaticPages }/>
+      </Route>
+
+      <Route path="*" component={ NotFound } />
+    </Router>
   </Provider>,
   document.getElementById('root')
 );
